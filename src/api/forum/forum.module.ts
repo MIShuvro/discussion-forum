@@ -34,6 +34,7 @@ import { PostRepository } from './repository/post.repository';
         name: Post.name,
         useFactory: ()=>{
           const Schema = PostSchema
+          Schema.plugin(require('mongoose-paginate-v2'));
           return Schema
         }
       }

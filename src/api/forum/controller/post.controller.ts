@@ -1,5 +1,5 @@
-import { Body, Controller, HttpStatus, Post, UseInterceptors } from '@nestjs/common';
-import { ApiCreatedResponse, ApiInternalServerErrorResponse, ApiTags } from '@nestjs/swagger';
+import { Body, Controller, Get, HttpStatus, Param, Post, UseInterceptors } from '@nestjs/common';
+import { ApiCreatedResponse, ApiInternalServerErrorResponse, ApiOkResponse, ApiTags } from '@nestjs/swagger';
 import { ResponseInterceptor } from '@common/interceptors/response.interceptor';
 import { PostService } from '../service/post.service';
 import {
@@ -7,7 +7,7 @@ import {
   SwaggerBaseApiErrorResponse,
   SwaggerBaseApiResponse
 } from '../../../common/dto/base-api-response.dto';
-import { PostResDto } from '../dto/res/post-res.dto';
+import { PostListResDto, PostResDto } from '../dto/res/post-res.dto';
 import { PostReqDto } from '../dto/req/post-req.dto';
 
 
@@ -26,6 +26,28 @@ export class PostController{
     return {
       message: 'Post Created',
       data: newPost
+    }
+  }
+
+  @Get()
+  @ApiOkResponse({type: SwaggerBaseApiResponse(PostListResDto, HttpStatus.OK)})
+  @ApiInternalServerErrorResponse({ type: SwaggerBaseApiErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR) })
+  async find(): Promise<BaseApiResponse<PostListResDto>>{
+    let posts = await this.postService.find()
+    return {
+      message: 'Post Lists',
+      data: posts
+    }
+  }
+
+  @Get("/:post_id")
+  @ApiOkResponse({type: SwaggerBaseApiResponse(PostResDto, HttpStatus.OK)})
+  @ApiInternalServerErrorResponse({ type: SwaggerBaseApiErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR) })
+  async findOne(@Param('post_id') postId: string): Promise<BaseApiResponse<PostResDto>>{
+    let post = await this.postService.findOne(postId)
+    return {
+      message: 'Post Get Success',
+      data: post
     }
   }
 }

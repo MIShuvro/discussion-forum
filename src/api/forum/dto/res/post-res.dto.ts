@@ -88,7 +88,7 @@ export class PostResDto {
 
   @ApiProperty({type: User})
   @Expose()
-  @Transform(value=> value.obj.user)
+  @Transform(value=> plainToInstance(User, value.obj.user, {excludeExtraneousValues: true, enableImplicitConversion: true}))
   user:  User;
 
   @ApiProperty({type: Thread})
@@ -106,6 +106,6 @@ export class PostResDto {
 export class PostListResDto{
   @ApiProperty({type:[PostResDto]})
   @Expose()
-  @Transform(value=>value.obj.posts)
+  @Transform(value=> plainToInstance(PostResDto, value.obj.posts,{enableImplicitConversion: true, excludeExtraneousValues: true}))
   posts: PostResDto[]
 }
