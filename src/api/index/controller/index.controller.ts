@@ -6,7 +6,7 @@ export class IndexController {
   @Get()
   index() {
     return {
-      app: 'Nest Boilerplate is running...'
+      app: 'Discussion Forum is running...'
     };
   }
 }

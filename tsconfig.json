@@ -26,6 +26,9 @@
       ],
       "@common/http-clients/*": [
         "./src/common/http-clients/*"
+      ],
+      "@common/database/*": [
+        "./src/common/database/*"
       ]
     }
   }
